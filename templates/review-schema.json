@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CopilotReview",
+  "description": "四巨头评审报告数据结构",
+  "type": "object",
+  "required": ["projectName", "date", "avgScore", "dimensions", "reviewers", "topIssues", "nextSteps"],
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "项目名称"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "评审日期 YYYY-MM-DD"
+    },
+    "avgScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "四维综合均分"
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "score"],
+        "properties": {
+          "name": { "type": "string" },
+          "score": { "type": "number", "minimum": 0, "maximum": 10 }
+        }
+      },
+      "minItems": 4,
+      "maxItems": 4,
+      "description": "护城河/本质/杠杆/可持续"
+    },
+    "reviewers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "dimension", "verdict", "review", "advice"],
+        "properties": {
+          "name": { "type": "string", "enum": ["Buffett", "Musk", "Naval", "Karpathy"] },
+          "dimension": { "type": "string" },
+          "verdict": { "type": "string", "enum": ["pass", "warn", "fail"] },
+          "review": { "type": "string", "description": "2-3 sentences of review opinion" },
+          "advice": { "type": "string", "description": "One actionable suggestion" }
+        }
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "topIssues": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "最关键的3个待改进点"
+    },
+    "nextSteps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "下一步行动建议"
+    }
+  }
+}
